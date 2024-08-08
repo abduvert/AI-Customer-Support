@@ -59,6 +59,13 @@ export default function Home() {
     }
   }
 
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      sendMessage();
+    }
+  };
+
   return (
     <div className="flex flex-col items-center w-screen h-screen bg-cyan-600 font-mono">
       <div className="fixed top-0 left-0 right-0 bg-white p-5 shadow-md text-4xl">
@@ -88,10 +95,12 @@ export default function Home() {
               className="text-gray-800 flex-grow p-2 border border-gray-300 rounded shadow-sm"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
+              onKeyDown={handleKeyPress}
             />
             <button
               className="p-2 bg-cyan-600 text-white rounded shadow-sm"
               onClick={sendMessage}
+              onKeyP
             >
               Send
             </button>

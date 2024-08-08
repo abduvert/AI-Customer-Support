@@ -7,7 +7,12 @@ const systemprompt = "You are a highly professional and friendly customer servic
 
 
 export async function POST(req){
-    const groq = new Groq();
+
+    const groq = new Groq(
+        {
+            apiKey : process.env.API_KEY
+        }
+    );
     const data=await req.json();
 
     const completion = await  groq.chat.completions.create({
