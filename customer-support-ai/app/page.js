@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import ReactMarkdown from 'react-markdown'
 
 export default function Home() {
   const [messages, setMessages] = useState([
@@ -81,9 +82,11 @@ export default function Home() {
                 className={`flex ${message.role === 'assistant' ? 'justify-start' : 'justify-end'}`}
               >
                 <div
-                  className={`max-w-3/4 rounded-2xl p-3 text-gray-800 ${message.role === 'assistant' ? 'bg-blue-200' : 'bg-blue-100'} shadow-sm`}
+                className={`max-w-[60%] md:max-w-[50%] lg:max-w-[40%] rounded-2xl p-3 text-gray-800 ${message.role === 'assistant' ? 'bg-blue-200' : 'bg-blue-100'} shadow-sm`}
                 >
-                  {message.content}
+                  <ReactMarkdown>
+                    {message.content}
+                  </ReactMarkdown>
                 </div>
               </div>
             ))}
