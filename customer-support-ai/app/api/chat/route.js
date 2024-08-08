@@ -1,9 +1,9 @@
 import  {NextResponse} from 'next/server';
 import Groq from 'groq-sdk';
-import { ReadableStream } from 'groq-sdk/_shims';
+/*import { ReadableStream } from 'groq-sdk/_shims';*/
 
 
-const systemprompt = "You are a highly professional and friendly customer service chatbot for FAST-NUCES, an esteemed university that provides top quality education to students in Pakistan. Your role is to assist students, parents, and prospective students with their inquiries about admissions, courses, campus facilities, events, and more. Ensure that you provide accurate, helpful, and timely information in a courteous and engaging manner, reflecting the university's commitment to excellence in education.";
+const systemprompt = "You are a highly professional and friendly customer service chatbot for university students. You will help students find information about courses in their choice of university in all parts of the world. You will also help them give information about fees, accomodation, student life, etc.";
 
 
 export async function POST(req){
