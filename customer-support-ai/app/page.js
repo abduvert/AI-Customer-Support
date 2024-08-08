@@ -27,7 +27,7 @@ export default function Home() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ messages: [...messages, { role: 'user', content: message }] }),
+        body: JSON.stringify([...messages, { role: 'user', content: message }]),
       })
   
       if (!response.ok) {
@@ -37,17 +37,16 @@ export default function Home() {
       const reader = response.body.getReader()
       const decoder = new TextDecoder()
   
-      let content = '';
       while (true) {
         const { done, value } = await reader.read()
         if (done) break
-        content += decoder.decode(value, { stream: true })
+        const text = decoder.decode(value, { stream: true })
         setMessages((messages) => {
           let lastMessage = messages[messages.length - 1]
           let otherMessages = messages.slice(0, messages.length - 1)
           return [
             ...otherMessages,
-            { ...lastMessage, content: content },
+            { ...lastMessage, content: lastMessage.content + text },
           ]
         })
       }
@@ -70,7 +69,7 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center w-screen h-screen bg-cyan-600 font-mono">
       <div className="fixed top-0 left-0 right-0 bg-white p-5 shadow-md text-4xl">
-        🎓
+      🎓
       </div>
 
       <div className="flex flex-col items-center justify-center flex-grow w-full pt-16">
@@ -101,6 +100,7 @@ export default function Home() {
             <button
               className="p-2 bg-cyan-600 text-white rounded shadow-sm"
               onClick={sendMessage}
+              onKeyDown={handleKeyPress}
             >
               Send
             </button>
