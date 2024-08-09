@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
-import ReactMarkdown from 'react-markdown';
+import { useState, useEffect, useRef } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import ReactMarkdown from 'react-markdown';
 
 export default function Home() {
   const [messages, setMessages] = useState([
@@ -13,6 +13,9 @@ export default function Home() {
   ]);
   const [message, setMessage] = useState('');
   const [hasMore, setHasMore] = useState(true);
+
+  // Ref to scroll to the bottom
+  const bottomRef = useRef(null);
 
   const sendMessage = async () => {
     if (!message.trim()) return;
@@ -73,11 +76,18 @@ export default function Home() {
     }
   };
 
+
+  useEffect(() => {
+    if (bottomRef.current) {
+      bottomRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages]);
+
   return (
     <div className="flex flex-col min-h-screen bg-cyan-600 font-mono">
       <div className="w-full fixed top-0 bg-white z-10 flex justify-center items-center p-4">
-          <h1 className="text-4xl text-center">🎓</h1>
-        </div>
+        <h1 className="text-4xl text-center">🎓</h1>
+      </div>
 
       <div className="flex-grow flex flex-col items-center mt-16 px-4 md:px-8 pb-5 pt-20">
         <div className="bg-white w-full max-w-6xl h-[70vh] flex flex-col items-center shadow-md p-5">
@@ -97,12 +107,13 @@ export default function Home() {
                   className={`flex ${message.role === 'assistant' ? 'justify-start' : 'justify-end'}`}
                 >
                   <div
-                    className={`max-w-[60%] md:max-w-[50%] lg:max-w-[40%] rounded-2xl p-3 text-gray-800 ${message.role === 'assistant' ? 'bg-blue-200' : 'bg-blue-100'} shadow-sm`}
+                    className={`max-w-[60%] md:max-w-[50%] lg:max-w-[40%] rounded-2xl p-3 text-gray-800 ${message.role === 'assistant' ? 'bg-blue-200' : 'bg-gray-200'} shadow-sm`}
                   >
                     <ReactMarkdown>{message.content}</ReactMarkdown>
                   </div>
                 </div>
               ))}
+              <div ref={bottomRef} />
             </InfiniteScroll>
           </div>
           <div className="flex space-x-2 w-full">
