@@ -1,6 +1,6 @@
-'use client';
+'use client'
 
-import {useRef, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import NavBar from '../Components/NavBar';
@@ -10,7 +10,7 @@ const Chatbot = () => {
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
-      content: "Hi! I'm your University Support Assistant. How can I help?",
+      content: "Hi! I'm your COMSATS University Support Assistant. How can I help?",
     },
   ]);
   const [message, setMessage] = useState('');
@@ -21,7 +21,6 @@ const Chatbot = () => {
   const [error, setError] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const bottomRef = useRef(null);
-
 
   const sendMessage = async () => {
     if (!message.trim()) return;
@@ -102,11 +101,11 @@ const Chatbot = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ feedback, ratings }), // Ensure rating is a number
+        body: JSON.stringify({ feedback, ratings }),
       });
 
       if (!response.ok) {
-        const errorText = await response.text(); // Read the response as text
+        const errorText = await response.text();
         throw new Error(`Server error: ${errorText}`);
       }
 
@@ -122,8 +121,6 @@ const Chatbot = () => {
     }
   };
 
- 
-  
   useEffect(() => {
     if (bottomRef.current) {
       bottomRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -152,7 +149,7 @@ const Chatbot = () => {
                   className={`flex ${message.role === 'assistant' ? 'justify-start' : 'justify-end'}`}
                 >
                   <div
-                    className={`max-w-[60%] md:max-w-[50%] lg:max-w-[40%] rounded-2xl p-3 text-gray-800 ${message.role === 'assistant' ? 'bg-blue-200' : 'bg-blue-100'} shadow-sm`}
+                    className={`max-w-[60%] md:max-w-[50%] lg:max-w-[40%] rounded-2xl p-3 text-gray-800 ${message.role === 'assistant' ? 'bg-blue-200' : 'bg-gray-100'} shadow-sm`}
                   >
                     <ReactMarkdown>{message.content}</ReactMarkdown>
                   </div>
@@ -181,26 +178,25 @@ const Chatbot = () => {
             <div className="mt-4">
               <h2 className="text-xl mb-2">Feedback</h2>
               {error && <p className="text-red-500 mb-2">{error}</p>}
-                      <div className="mb-4">
-          <label className="block mb-1 text-gray-700 font-semibold">Rating (1 to 5):</label>
-          <div className="relative">
-            <input
-              type="number"
-              min="1"
-              max="5"
-              className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 transition duration-300"
-              value={ratings}
-              onChange={(e) => setRating(parseInt(e.target.value))}
-              placeholder="Enter rating"
-            />
-            <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">/ 5</span>
-          </div>
-        </div>
-
+              <div className="mb-4">
+                <label className="block mb-1 text-gray-700 font-semibold">Rating (1 to 5):</label>
+                <div className="relative">
+                  <input
+                    type="number"
+                    min="1"
+                    max="5"
+                    className="text-black w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 transition duration-300"
+                    value={ratings}
+                    onChange={(e) => setRating(parseInt(e.target.value))}
+                    placeholder="Enter rating"
+                  />
+                  <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">/ 5</span>
+                </div>
+              </div>
 
               <textarea
                 placeholder="Leave your feedback here"
-                className="w-full p-2 border border-gray-300 rounded-md"
+                className="w-full p-2 border border-gray-300 rounded-md text-black"
                 value={feedback}
                 onChange={(e) => setFeedback(e.target.value)}
               />
@@ -210,6 +206,12 @@ const Chatbot = () => {
                 disabled={submitted}
               >
                 {submitted ? 'Submitting...' : 'Submit Feedback'}
+              </button>
+              <button
+                className="mt-2 p-2 bg-gray-100 text-black rounded-md"
+                onClick={() => setShowFeedbackForm(false)}
+              >
+                Cancel
               </button>
             </div>
           )}

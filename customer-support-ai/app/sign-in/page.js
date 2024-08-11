@@ -90,7 +90,7 @@ const SignIn = () => {
           backgroundColor: 'white',
         }}
       >
-        <Typography variant="h4" component="h1" gutterBottom>
+        <Typography variant="h4" component="h1" gutterBottom color="black">
           Sign In
         </Typography>
         <Stack spacing={2} mb={2}>

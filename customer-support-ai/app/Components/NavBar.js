@@ -45,7 +45,7 @@ export default function NavBar() {
   return (
     <div className="w-full fixed top-0 bg-white z-10 flex flex-col md:flex-row md:justify-between items-center p-4 shadow-md">
       <div className="flex justify-between w-full md:w-auto">
-        <h1 className="text-4xl text-left">🎓 UniBuddy</h1>
+        <h1 className="text-4xl text-left text-black">🎓 UniBuddy</h1>
         <button
           className="md:hidden text-cyan-600 hover:text-cyan-800"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
